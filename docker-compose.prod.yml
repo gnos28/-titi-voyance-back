@@ -9,7 +9,11 @@ services:
     ports:
       - "5000:5000"
     networks:
-      - dockerlan
+      - front_titilan
     # extra_hosts:
     #   - "host.docker.internal:host-gateway"
     restart: always
+
+networks:
+  front_titilan:
+    external: true
