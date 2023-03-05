@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   back:
+    container_name: titiback
     build:
       context: ./back/
       target: production
@@ -8,12 +9,12 @@ services:
     command: pm2-runtime dist/index.js
     ports:
       - "5000:5000"
-    # networks:
-    #   - front_titilan
+    networks:
+      - titinetwork
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
 
-# networks:
-#   front_titilan:
-#     external: true
+networks:
+  titinetwork:
+    name: titinetwork
