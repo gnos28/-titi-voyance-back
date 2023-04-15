@@ -47,7 +47,9 @@ createCheckoutSessionController.store = async (req, res) => {
 
     if (!sessionUrl) throw new Error("sessionUrl empty");
 
-    res.redirect(303, sessionUrl);
+    // res.redirect(303, sessionUrl);
+
+    res.send({ url: sessionUrl });
   } catch (err: unknown) {
     console.error(err);
     res.sendStatus(500);
