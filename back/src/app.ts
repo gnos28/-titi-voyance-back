@@ -26,10 +26,12 @@ const router = express.Router();
 import getAgenda from "./routes/getAgendaRouter";
 import storePaypal from "./routes/storePaypalRouter";
 import getPrestations from "./routes/getPrestationsRouter";
+import createCheckoutSession from "./routes/createCheckoutSessionRouter";
 
 router.use("/getAgenda", getAgenda);
 router.use("/getPrestations", getPrestations);
 router.use("/storePaypal", storePaypal);
+router.use("/create-checkout-session", createCheckoutSession);
 
 app.use("/api", router);
 

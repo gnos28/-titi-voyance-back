@@ -8,7 +8,7 @@ export type ControllerType = {
   [key: string]: (req: Request, res: Response) => Promise<void>;
 };
 
-type PurchasingData = {
+export type PurchasingData = {
   id: number;
   create_time: string | undefined;
   purchasedAmount: string | undefined;
@@ -72,7 +72,7 @@ storePaypalController.store = async (req, res) => {
       ).toISOString();
       console.log("end", end);
 
-      const res = await agenda.events.insert({
+      const agendaInsertRes = await agenda.events.insert({
         calendarId: process.env.CALENDAR_ID,
         conferenceDataVersion: 0,
         sendNotifications: true,
@@ -128,7 +128,7 @@ storePaypalController.store = async (req, res) => {
         },
       });
 
-      console.log("res", res);
+      console.log("agendaInsertRes", agendaInsertRes);
     }
 
     // send mail to customer
