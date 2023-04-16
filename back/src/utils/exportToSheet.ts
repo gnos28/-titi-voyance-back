@@ -1,3 +1,5 @@
+// USELESS TO BE DELETED AFTER CHECK
+
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import * as dotenv from "dotenv";
 import AlphanumericEncoder from "alphanumeric-encoder";

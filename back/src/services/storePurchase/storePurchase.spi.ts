@@ -1,13 +1,21 @@
+import { sheetAPI } from "gnos";
+import { DataRowWithId } from "gnos/lib/interfaces";
 import { exportToAgenda } from "../../utils/exportToAgenda";
-import { Data, exportToSheet } from "../../utils/exportToSheet";
 
-type ExportToSheetPort = (
-  datas: Data[],
-  sheetId: string
-) => Promise<number | undefined>;
+type ExportToSheetProps = {
+  data: DataRowWithId[];
+  sheetId: string;
+  tabName: string;
+};
 
-export const exportToSheetAdapter: ExportToSheetPort = async (datas, sheetId) =>
-  await exportToSheet(datas, sheetId);
+type ExportToSheetPort = (arg: ExportToSheetProps) => Promise<void>;
+
+export const exportToSheetAdapter: ExportToSheetPort = async ({
+  sheetId,
+  tabName,
+  data,
+}) => await sheetAPI.appendToSheet({ sheetId, tabName, data });
+// await exportToSheet(datas, sheetId);
 
 type ExportToAgendaProps = {
   start: string;

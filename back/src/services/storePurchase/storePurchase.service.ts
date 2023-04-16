@@ -7,19 +7,21 @@ import {
 export const storePurchaseService: StorePurchaseService = async ({
   purchasingData,
 }) => {
+  const sheetId = process.env.EXPORT_SHEET_ID;
+  if (sheetId === undefined) throw new Error("EXPORT_SHEET_ID undefined");
+
   // save data to google sheet
-  const nbNew = await exportToSheetAdapter([purchasingData], "840247244");
+  await exportToSheetAdapter({
+    data: [purchasingData],
+    tabName: "FROM_WEB",
+    sheetId,
+  });
   // create new agenda event
   const purchasingDataDate = purchasingData.date;
   const splittedHour = purchasingData.hour?.split(":") || [];
   const duration = purchasingData.prestationDuration;
 
-  if (
-    nbNew === 1 &&
-    purchasingDataDate &&
-    splittedHour?.length > 1 &&
-    duration
-  ) {
+  if (purchasingDataDate && splittedHour?.length > 1 && duration) {
     const year = new Date(purchasingDataDate).getFullYear();
     const month = new Date(purchasingDataDate).getMonth();
     const day = new Date(purchasingDataDate).getDate();

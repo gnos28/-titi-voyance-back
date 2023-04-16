@@ -1,11 +1,19 @@
-import { importSheet } from "../../utils/importSheet";
+import { sheetAPI } from "gnos";
 
-export type ImportSheetPort = (sheetId: string | undefined) => Promise<
+export type ImportSheetPort = (arg: ImportSheetProps) => Promise<
   {
     [key: string]: string;
   }[]
 >;
 
-export const importSheetAdapter: ImportSheetPort = async (
-  sheetId: string | undefined
-) => await importSheet(sheetId);
+type ImportSheetProps = {
+  sheetId: string;
+  tabName: string;
+};
+
+export const importSheetAdapter: ImportSheetPort = async ({
+  sheetId,
+  tabName,
+}: ImportSheetProps) => await sheetAPI.getTabData({ sheetId, tabName });
+
+// await importSheet(sheetId);

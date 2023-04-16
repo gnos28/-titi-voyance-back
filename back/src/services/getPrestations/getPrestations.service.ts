@@ -2,15 +2,18 @@ import { GetPrestationsService } from "./getPrestations.api";
 import { importSheetAdapter } from "./getPrestations.spi";
 
 export const getPrestationsService: GetPrestationsService = async () => {
-  const { IMPORT_PRESTATIONS_SHEET_ID } = process.env;
+  const sheetId = process.env.EXPORT_SHEET_ID;
+  if (sheetId === undefined) throw new Error("EXPORT_SHEET_ID undefined");
 
-  const prestations = (
-    await importSheetAdapter(IMPORT_PRESTATIONS_SHEET_ID)
-  ).map((prestation) => ({
-    ...prestation,
-    price: parseInt(prestation.price),
-    duration: parseInt(prestation.duration),
-  }));
+  const tabName = "LISTE_PRESTATIONS";
+
+  const prestations = (await importSheetAdapter({ sheetId, tabName })).map(
+    (prestation) => ({
+      ...prestation,
+      price: parseInt(prestation.price),
+      duration: parseInt(prestation.duration),
+    })
+  );
 
   return prestations;
 };
