@@ -1,11 +1,5 @@
-import { Request, Response } from "express";
-import * as dotenv from "dotenv";
+import { ControllerType } from "../interfaces";
 import { getAgendaService } from "../services/getAgenda/getAgenda.service";
-dotenv.config();
-
-export type ControllerType = {
-  [key: string]: (req: Request, res: Response) => Promise<void>;
-};
 
 const getAgendaController: ControllerType = {};
 

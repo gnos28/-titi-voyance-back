@@ -1,24 +1,5 @@
-import { calendar_v3, google } from "googleapis";
-
-const getAuth = () =>
-  new google.auth.GoogleAuth({
-    keyFile: "./auth.json",
-    scopes: [
-      "https://www.googleapis.com/auth/calendar",
-      "https://www.googleapis.com/auth/calendar.events",
-    ],
-  });
-
-const getGoogleAgenda = () => {
-  const auth = getAuth();
-
-  const agenda = google.calendar({
-    version: "v3",
-    auth,
-  });
-
-  return agenda;
-};
+import { calendar_v3 } from "googleapis";
+import { getAgenda } from "./google";
 
 const trimEventDate = (events: calendar_v3.Schema$Event[]) =>
   events.map((event) => ({
@@ -39,7 +20,7 @@ export type TrimmedEvent = {
 
 export const importAgenda = {
   getEventList: async ({ calendarId, timeMin, timeMax }: GetEventListProps) => {
-    const agenda = getGoogleAgenda();
+    const agenda = getAgenda();
 
     const eventList = await agenda.events.list({
       calendarId,

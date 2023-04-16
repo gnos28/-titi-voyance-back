@@ -1,9 +1,5 @@
-import { Request, Response } from "express";
+import { ControllerType } from "../interfaces";
 import { getPrestationsService } from "../services/getPrestations/getPrestations.service";
-
-export type ControllerType = {
-  [key: string]: (req: Request, res: Response) => Promise<void>;
-};
 
 const getPrestationsController: ControllerType = {};
 

@@ -1,12 +1,5 @@
-import { Request, Response } from "express";
-import * as dotenv from "dotenv";
-import { PurchasingData } from "../services/storePurchase/storePurchase.api";
 import { createCheckoutSessionService } from "../services/createCheckoutSession/createCheckoutSession.service";
-dotenv.config();
-
-export type ControllerType = {
-  [key: string]: (req: Request, res: Response) => Promise<void>;
-};
+import { ControllerType, PurchasingData } from "../interfaces";
 
 const createCheckoutSessionController: ControllerType = {};
 
