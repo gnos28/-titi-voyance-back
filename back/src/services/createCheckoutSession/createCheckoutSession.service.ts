@@ -16,5 +16,7 @@ export const createCheckoutSessionService: CreateCheckoutSessionService = {
     });
 
     if (!sessionUrl) throw new Error("sessionUrl empty");
+
+    return sessionUrl;
   },
 };

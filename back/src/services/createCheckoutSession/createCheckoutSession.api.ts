@@ -11,5 +11,5 @@ export type CreateCheckoutSessionService = {
     stripeDomain,
     prestationName,
     prestationPrice,
-  }: CreateProps) => Promise<void>;
+  }: CreateProps) => Promise<string>;
 };
