@@ -3,6 +3,6 @@ import createCheckoutSessionController from "../controllers/createCheckoutSessio
 
 const router = express.Router();
 
-router.post("/", createCheckoutSessionController.store);
+router.post("/", createCheckoutSessionController.create);
 
 export default router;

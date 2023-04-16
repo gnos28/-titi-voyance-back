@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as dotenv from "dotenv";
-import Stripe from "stripe";
 import { PurchasingData } from "../services/storePurchase/storePurchase.api";
+import { createCheckoutSessionService } from "../services/createCheckoutSession/createCheckoutSession.service";
 dotenv.config();
 
 export type ControllerType = {
@@ -10,7 +10,7 @@ export type ControllerType = {
 
 const createCheckoutSessionController: ControllerType = {};
 
-createCheckoutSessionController.store = async (req, res) => {
+createCheckoutSessionController.create = async (req, res) => {
   try {
     const { prestationPrice, prestationName } = req.body
       .purchasingData as PurchasingData;
@@ -20,34 +20,15 @@ createCheckoutSessionController.store = async (req, res) => {
 
     const { STRIPE_SECRET_KEY } = process.env;
     if (!STRIPE_SECRET_KEY) throw new Error("STRIPE_SECRET_KEY empty");
-
-    const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2022-11-15" });
-
     const { STRIPE_DOMAIN } = process.env;
+    if (!STRIPE_DOMAIN) throw new Error("STRIPE_DOMAIN empty");
 
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          //   price: "{{PRICE_ID}}",
-          price_data: {
-            currency: "eur",
-            product_data: { name: prestationName },
-            unit_amount: prestationPrice * 100,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${STRIPE_DOMAIN}?success=true`,
-      cancel_url: `${STRIPE_DOMAIN}?canceled=true`,
+    const sessionUrl = await createCheckoutSessionService.create({
+      stripeSecretKey: STRIPE_SECRET_KEY,
+      stripeDomain: STRIPE_DOMAIN,
+      prestationName,
+      prestationPrice,
     });
-
-    const sessionUrl = session.url;
-
-    if (!sessionUrl) throw new Error("sessionUrl empty");
-
-    // res.redirect(303, sessionUrl);
 
     res.send({ url: sessionUrl });
   } catch (err: unknown) {
