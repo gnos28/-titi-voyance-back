@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { calendar_v3, google } from "googleapis";
-import fs from "fs";
-
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -29,12 +27,11 @@ const getAgenda = () => {
   return agenda;
 };
 
-const trimEventDate = (events: calendar_v3.Schema$Event[]) => {
-  return events.map((event) => ({
+const trimEventDate = (events: calendar_v3.Schema$Event[]) =>
+  events.map((event) => ({
     start: event.start?.dateTime,
     end: event.end?.dateTime,
   }));
-};
 
 const convertEventsToSlots = (events: calendar_v3.Schema$Event[]) => {
   const SLOT_DURATION = 30 * 60 * 1000;

@@ -1,13 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import * as dotenv from "dotenv";
-import AlphanumericEncoder from "alphanumeric-encoder";
 
 dotenv.config();
-
-type Data = {
-  id: number | string;
-  [key: string]: string | number | undefined;
-};
 
 export const importSheet = async (sheetId: string | undefined) => {
   console.log("importSheet" + sheetId);

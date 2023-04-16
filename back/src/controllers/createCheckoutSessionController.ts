@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as dotenv from "dotenv";
 import Stripe from "stripe";
-import { PurchasingData } from "./storePaypalController";
+import { PurchasingData } from "../services/storePurchase/storePurchase.api";
 dotenv.config();
 
 export type ControllerType = {
