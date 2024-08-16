@@ -10,8 +10,14 @@ export const getPrestationsService: GetPrestationsService = async () => {
   const prestations = (await importSheetAdapter({ sheetId, tabName })).map(
     (prestation) => ({
       ...prestation,
-      price: parseInt(prestation.price),
-      duration: parseInt(prestation.duration),
+      price:
+        typeof prestation.price === "string"
+          ? parseInt(prestation.price, 10)
+          : prestation.price,
+      duration:
+        typeof prestation.duration === "string"
+          ? parseInt(prestation.duration, 10)
+          : prestation.duration,
     })
   );
 

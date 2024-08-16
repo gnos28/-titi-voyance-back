@@ -4,15 +4,48 @@ import {
   exportToSheetAdapter,
 } from "./storePurchase.spi";
 
+const sheetColumns = [
+  "id",
+  "create_time",
+  "purchasedAmount",
+  "purchasedCurrency",
+  "status",
+  "payer_id",
+  "payer_name",
+  "prenom",
+  "nom",
+  "email_adress",
+  "address",
+  "date",
+  "hour",
+  "prestationName",
+  "prestationDuration",
+  "prestationPrice",
+  "telephone",
+  "instagram",
+  "whatsapp",
+] as const;
+
+type SheetColumn = (typeof sheetColumns)[number];
+
 export const storePurchaseService: StorePurchaseService = async ({
   purchasingData,
 }) => {
   const sheetId = process.env.EXPORT_SHEET_ID;
   if (sheetId === undefined) throw new Error("EXPORT_SHEET_ID undefined");
 
+  const orderedColumnsPurchasingData = Object.fromEntries(
+    new Map(
+      sheetColumns.map((col) => [col, (purchasingData[col] ?? "").toString()])
+    )
+  ) as Record<SheetColumn, string>;
+
+  console.log({ purchasingData });
+  console.log({ orderedColumnsPurchasingData });
+
   // save data to google sheet
   await exportToSheetAdapter({
-    data: [purchasingData],
+    data: [orderedColumnsPurchasingData],
     tabName: "FROM_WEB",
     sheetId,
   });
